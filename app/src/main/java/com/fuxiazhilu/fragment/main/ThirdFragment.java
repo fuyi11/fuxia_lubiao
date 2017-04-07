@@ -1,0 +1,73 @@
+package com.fuxiazhilu.fragment.main;
+
+
+import android.view.View;
+import android.view.ViewGroup;
+
+
+import com.fuxiazhilu.adapter.SceneListPageAdapter;
+import com.fuxiazhilu.adapter.base.recyclerview.CommonAdapter;
+import com.fuxiazhilu.api.ScenicService;
+import com.fuxiazhilu.api.base.BeanCallBack;
+import com.fuxiazhilu.api.base.ClientJsonResp;
+import com.fuxiazhilu.entity.Scene;
+import com.fuxiazhilu.fragment.BaseListPageFragment;
+import com.fuxiazhilu.utils.UIHelp;
+
+import java.util.List;
+
+import okhttp3.Call;
+
+/**
+ * Created by linhonghong on 2015/8/11.
+ */
+public class ThirdFragment extends BaseListPageFragment<Scene> {
+
+    public static ThirdFragment instance() {
+        ThirdFragment view = new ThirdFragment();
+        return view;
+    }
+
+    @Override
+    protected CommonAdapter<Scene> getAdapter() {
+        return new SceneListPageAdapter(getActivity());
+    }
+
+    @Override
+    public void onItemClick(ViewGroup parent, View view, Object o, int position) {
+        String ad_url = "http://www.zttmall.com/Wapshop/Topic.aspx?TopicId=18";
+        String title = "百度一下你就知道";
+        UIHelp.showWebViewActivity(getActivity(), title, ad_url);
+    }
+
+    @Override
+    public boolean onItemLongClick(ViewGroup parent, View view, Object o, int position) {
+        return false;
+    }
+
+
+    @Override
+    public void loadData() {
+        ScenicService.loadData("佛山", null, null, mPageNo, mPageSize).execute(new BeanCallBack<ClientJsonResp<List<Scene>>>() {
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                UIHelp.toastMessage("加载数据出现错误,请重试!");
+                refreshComplete();
+            }
+
+            @Override
+            public void onResponse(ClientJsonResp<List<Scene>> response, int id) {
+                mPageCount = response.getPageCount();
+                adapter.addData(response.getResponse());
+                refreshComplete();
+            }
+        });
+    }
+
+    @Override
+    public void onRefresh() {
+        mPageNo = 1;
+        loadData();
+    }
+}

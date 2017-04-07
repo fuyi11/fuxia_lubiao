@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.fuxiazhilu"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        debug {
+            // No debug config
+        }
+
+        release {
+            storeFile file("../mlxingzyt.keystore")
+            storePassword "mlxingcom20150518"
+            keyAlias "androiddebugkey"
+            keyPassword "mlxingcom20150518"
+        }
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    testCompile 'junit:junit:4.12'
+//    compile 'com.jakewharton:butterknife:8.4.0'
+    compile 'com.android.support:design:25.2.0'
+
+    compile 'com.jakewharton:butterknife:8.1.0'
+    apt 'com.jakewharton:butterknife-compiler:8.1.0'
+
+    compile 'com.android.support:recyclerview-v7:25.2.0'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.zhy:okhttputils:2.6.2'
+//    compile 'com.android.support:cardview-v7:21.0.+'
+    compile 'com.android.support:cardview-v7:23.4.0'
+    compile files('libs/fastjson-1.2.8.jar')
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    //banner循环轮播
+    compile 'com.bigkoo:convenientbanner:2.0.5'
+
+    //底部tab
+    compile 'homhomlin.lib:apsts:1.4.0'
+    // //底部tab AdvancedPagerSlidingTabStrip 库
+//    compile 'homhomlin.lib:apsts:1.8.0'
+
+    // 图片显示库
+    compile 'com.bm.photoview:library:1.4.0'
+
+
+}
